@@ -12,6 +12,7 @@ def pretty_print():
 n = int(input())
 A = list()
 B = list()
+SAVED_A = A.copy()
 for i in range(n):
     now = input().split()
     now = list(map(int, now))
@@ -46,3 +47,7 @@ for i in range(n - 1, -1, -1):
     ans[i] = x / A[i][i]
 
 print(ans)
+import numpy as np
+A = np.matrix(SAVED_A)
+print("Det: " + str(np.linalg.det(A)))
+for i, j in range(n):
