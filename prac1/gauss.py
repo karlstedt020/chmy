@@ -9,16 +9,26 @@ def pretty_print():
         print(B[i])
         #print(end="\n")
 
+def check(x1, x2, eps, n):
+    for i in range(n):
+        if abs(x1[i] - x2[i]) >= eps:
+            return 1
+    return 0
+
 n = int(input())
 A = list()
 B = list()
-SAVED_A = A.copy()
 for i in range(n):
     now = input().split()
     now = list(map(int, now))
     B.append(now[-1])
     now = now[:-1]
     A.append(now)
+
+SAVED_A = []
+for x in A:
+    SAVED_A.append(x.copy())
+SAVED_B = B.copy()
 
 for i in range(n):
     C = list()
@@ -36,7 +46,7 @@ for i in range(n):
             process_row(j)
             B[j] -= B[s] * cf
     
-    pretty_print()
+    #pretty_print()
 
 ans = list([0] * n)
 
@@ -47,7 +57,32 @@ for i in range(n - 1, -1, -1):
     ans[i] = x / A[i][i]
 
 print(ans)
-import numpy as np
-A = np.matrix(SAVED_A)
-print("Det: " + str(np.linalg.det(A)))
-for i, j in range(n):
+
+A = SAVED_A
+B = SAVED_B
+
+x1 = []
+for i in range(n):
+    x1.append(B[i] / A[i][i])
+print(x1)
+x2 = []
+for i in range(n):
+    curr = B[i] / A[i][i]
+    for j in range(i):
+        curr -= x2[j] * (A[i][j] / A[i][i])
+    for j in range(i + 1, n):
+        curr -= x1[j] * (A[i][j] / A[i][i])
+    x2.append(curr)
+print(x2)
+while check(x1, x2, 0.0001, n):
+    x1 = x2.copy()
+    x2 = []
+    for i in range(0, n):
+        curr = B[i] / A[i][i]
+        for j in range(0, i):
+            #print(j, ' ', i)
+            curr -= x2[j] * (A[i][j] / A[i][i])
+        for j in range(i + 1, n):
+            curr -= x1[j] * (A[i][j] / A[i][i])
+        x2.append(curr)
+    print(x2)
