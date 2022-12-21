@@ -15,15 +15,26 @@ def check(x1, x2, eps, n):
             return 1
     return 0
 
-n = int(input())
+#n = int(input())
+n = 25
 A = list()
 B = list()
 for i in range(n):
+    """
     now = input().split()
     now = list(map(int, now))
     B.append(now[-1])
     now = now[:-1]
     A.append(now)
+    """
+    m = 10
+    A.append([])
+    for j in range(n):
+        if i != j:
+            A[i].append((i + j) / (m + n))
+        else:
+            A[i].append(n + m * m + j / m + i / n)
+    B.append(i * i - n)
 
 SAVED_A = []
 for x in A:
@@ -63,8 +74,18 @@ B = SAVED_B
 
 x1 = []
 for i in range(n):
-    x1.append(B[i] / A[i][i])
-print(x1)
+    for j in range(i, n):
+        try:
+            x1.append(B[i] / A[i][i])
+            k = B[j]
+            B[j] = B[i]
+            B[i] = k
+            k = A[j].copy()
+            A[j] = A[i].copy()
+            A[i] = k.copy()
+        except ZeroDivisionError:
+            continue
+#print(x1)
 x2 = []
 for i in range(n):
     curr = B[i] / A[i][i]
@@ -73,7 +94,7 @@ for i in range(n):
     for j in range(i + 1, n):
         curr -= x1[j] * (A[i][j] / A[i][i])
     x2.append(curr)
-print(x2)
+#print(x2)
 while check(x1, x2, 0.0001, n):
     x1 = x2.copy()
     x2 = []
@@ -85,4 +106,5 @@ while check(x1, x2, 0.0001, n):
         for j in range(i + 1, n):
             curr -= x1[j] * (A[i][j] / A[i][i])
         x2.append(curr)
-    print(x2)
+    #print(x2)
+print(x2)
