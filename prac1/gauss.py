@@ -15,12 +15,10 @@ def check(x1, x2, eps, n):
             return 1
     return 0
 
-#n = int(input())
-n = 25
+n = int(input())
 A = list()
 B = list()
 for i in range(n):
-    """
     now = input().split()
     now = list(map(int, now))
     B.append(now[-1])
@@ -34,7 +32,7 @@ for i in range(n):
             A[i].append((i + j) / (m + n))
         else:
             A[i].append(n + m * m + j / m + i / n)
-    B.append(i * i - n)
+    B.append(i * i - n)"""
 
 SAVED_A = []
 for x in A:
@@ -67,7 +65,7 @@ for i in range(n - 1, -1, -1):
         x -= ans[j] * A[i][j]
     ans[i] = x / A[i][i]
 
-print(ans)
+#print(ans)
 
 A = SAVED_A
 B = SAVED_B
